@@ -234,6 +234,27 @@ class WidowXDefaultConfig:
                 combined_name = arm_controller_name + "_" + gripper_controller_name
                 controller_configs[combined_name] = c
 
+        # Motion planning
+        arm_joint_pd_pos = PDJointPosControllerConfig(
+            self.arm_joint_names,
+            None,
+            None,
+            self.arm_stiffness,
+            self.arm_damping,
+            self.arm_force_limit,
+            normalize_action=False,
+        )
+        gripper_pd_joint_pos = PDJointPosControllerConfig(
+            self.gripper_joint_names,
+            None,
+            None,
+            self.gripper_stiffness,
+            self.gripper_damping,
+            self.gripper_force_limit,
+            normalize_action=False,
+        )
+        controller_configs["arm_pd_joint_pos_gripper_pd_joint_pos"] = dict(arm=arm_joint_pd_pos, gripper=gripper_pd_joint_pos)
+
         # Make a deepcopy in case users modify any config
         return deepcopy_dict(controller_configs)
 

@@ -755,7 +755,7 @@ class BaseEnv(gym.Env):
     # ---------------------------------------------------------------------------- #
     # Advanced
     # ---------------------------------------------------------------------------- #
-    def gen_scene_pcd(self, num_points: int = int(1e5)) -> np.ndarray:
+    def gen_scene_pcd(self, num_points: int = int(1e5), seed=None) -> np.ndarray:
         """Generate scene point cloud for motion planning, excluding the robot"""
         meshes = []
         articulations = self._scene.get_all_articulations()
@@ -776,5 +776,7 @@ class BaseEnv(gym.Env):
                 )
 
         scene_mesh = merge_meshes(meshes)
-        scene_pcd = scene_mesh.sample(num_points)
+        # scene_pcd = scene_mesh.sample(num_points)
+        import trimesh.sample
+        scene_pcd, _ = trimesh.sample.sample_surface(scene_mesh, num_points, seed=seed)
         return scene_pcd

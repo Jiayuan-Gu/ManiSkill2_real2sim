@@ -328,6 +328,36 @@ class GoogleRobotDefaultConfig:
                         combined_name = base_controller_name + "_" + combined_name
                     controller_configs[combined_name] = c
 
+        # A special one for motion planning
+        arm_pd_joint_pos = PDJointPosControllerConfig(
+            self.arm_joint_names[:-2],
+            None, 
+            None,
+            self.arm_stiffness[:-2],
+            self.arm_damping[:-2],
+            self.arm_force_limit[:-2],
+            normalize_action=False
+        )
+        head_pd_joint_pos = PDJointPosControllerConfig(
+            self.arm_joint_names[-2:],
+            [-0.00285961, 0.7851361],
+            [-0.00285961, 0.7851361],
+            self.arm_stiffness[-2:],
+            self.arm_damping[-2:],
+            self.arm_force_limit[-2:],
+            normalize_action=False,
+        )
+        gripper_pd_joint_pos = PDJointPosControllerConfig(
+            *gripper_common_args,
+            normalize_action=True,  # if normalize_action==True, then action 0 maps to qpos=0, and action 1 maps to qpos=1.31
+            drive_mode="force",
+        )
+        controller_configs["arm_pd_joint_pos_gripper_pd_joint_pos"] = {
+            "arm": arm_pd_joint_pos, 
+            "head": head_pd_joint_pos, 
+            "gripper": gripper_pd_joint_pos,
+        }
+
         # Make a deepcopy in case users modify any config
         return deepcopy_dict(controller_configs)
 

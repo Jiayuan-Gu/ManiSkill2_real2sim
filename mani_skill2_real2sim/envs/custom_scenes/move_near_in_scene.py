@@ -53,7 +53,10 @@ class MoveNearInSceneEnv(CustomSceneEnv):
         self.prepackaged_config = prepackaged_config
         if self.prepackaged_config:
             # use prepackaged evaluation configs (visual matching)
-            kwargs.update(self._setup_prepackaged_env_init_config())
+            # kwargs.update(self._setup_prepackaged_env_init_config())
+            _kwargs = self._setup_prepackaged_env_init_config()
+            _kwargs.update(kwargs)
+            kwargs = _kwargs
 
         super().__init__(**kwargs)
 
