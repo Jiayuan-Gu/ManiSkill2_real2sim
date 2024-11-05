@@ -54,7 +54,8 @@ def get_pointcloud_in_camera(obs, camera_name):
 def main():
     env_id = "GraspSingleOpenedCokeCanInScene-v0"
     # env_id = "PutSpoonOnTableClothInScene-v0"
-    control_mode = "arm_pd_joint_pos_gripper_pd_joint_pos"
+    # control_mode = "arm_pd_joint_pos_gripper_pd_joint_pos"
+    control_mode = "arm_pd_ee_pose_gripper_pd_joint_pos"
     env = gym.make(
         env_id, obs_mode="rgbd", control_mode=control_mode, prepackaged_config=True
     )

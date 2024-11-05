@@ -358,6 +358,17 @@ class GoogleRobotDefaultConfig:
             "gripper": gripper_pd_joint_pos,
         }
 
+        arm_pd_ee_pose = PDEEPoseControllerConfig(
+            *arm_common_args,
+            frame="base", 
+            **arm_common_kwargs, 
+            use_delta=False
+        )
+        controller_configs["arm_pd_ee_pose_gripper_pd_joint_pos"] = {
+            "arm": arm_pd_ee_pose, 
+            "gripper": gripper_pd_joint_pos,
+        }
+
         # Make a deepcopy in case users modify any config
         return deepcopy_dict(controller_configs)
 
